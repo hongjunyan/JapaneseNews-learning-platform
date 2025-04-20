@@ -112,6 +112,11 @@ const RichNoteEditor = ({ note, onSave, onDelete, onMoveUp, onMoveDown, isNew = 
               fontFamily: '"Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif',
               fontSize: '1.2rem',
               lineHeight: 2
+            },
+            '.ql-editor': {
+              minHeight: '250px',
+              resize: 'vertical',
+              overflow: 'auto'
             }
           }}
         >
@@ -122,7 +127,6 @@ const RichNoteEditor = ({ note, onSave, onDelete, onMoveUp, onMoveDown, isNew = 
             modules={modules}
             formats={formats}
             placeholder="輸入日文文本..."
-            style={{ height: '150px' }}
           />
         </Paper>
 
@@ -143,6 +147,11 @@ const RichNoteEditor = ({ note, onSave, onDelete, onMoveUp, onMoveDown, isNew = 
             '.ql-container': {
               borderBottomLeftRadius: 4,
               borderBottomRightRadius: 4
+            },
+            '.ql-editor': {
+              minHeight: '250px',
+              resize: 'vertical',
+              overflow: 'auto'
             }
           }}
         >
@@ -153,7 +162,6 @@ const RichNoteEditor = ({ note, onSave, onDelete, onMoveUp, onMoveDown, isNew = 
             modules={modules}
             formats={formats}
             placeholder="輸入中文筆記..."
-            style={{ height: '150px' }}
           />
         </Paper>
         
