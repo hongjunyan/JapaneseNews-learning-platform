@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Header = () => {
   return (
@@ -19,6 +20,15 @@ const Header = () => {
             sx={{ mx: 1 }}
           >
             ホーム
+          </Button>
+          <Button 
+            color="inherit" 
+            component={RouterLink} 
+            to="/search"
+            sx={{ mx: 1 }}
+            startIcon={<SearchIcon />}
+          >
+            検索
           </Button>
           <Button 
             color="inherit" 

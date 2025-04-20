@@ -96,6 +96,18 @@ export const deleteNote = async (noteId) => {
   }
 };
 
+export const searchNotes = async (keyword) => {
+  try {
+    const response = await api.get(`/search/notes`, { 
+      params: { keyword } 
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error searching notes:', error);
+    throw error;
+  }
+};
+
 // Furigana API
 export const getFurigana = async (text) => {
   try {

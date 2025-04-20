@@ -166,6 +166,23 @@ def delete_note(note_id: int, db: Session = Depends(get_db)):
     return {"message": "Note deleted successfully"}
 
 
+@app.get("/search/notes")
+def search_notes(keyword: str, db: Session = Depends(get_db)):
+    """
+    Search for notes containing the specified keyword in japanese_text or chinese_notes.
+    """
+    if not keyword:
+        return []
+    
+    # Search for notes that contain the keyword in japanese_text or chinese_notes
+    search_results = db.query(Note).filter(
+        (Note.japanese_text.like(f"%{keyword}%")) | 
+        (Note.chinese_notes.like(f"%{keyword}%"))
+    ).all()
+    
+    return search_results
+
+
 @app.post("/furigana")
 def get_furigana(text: str = Body(..., embed=True)):
     """

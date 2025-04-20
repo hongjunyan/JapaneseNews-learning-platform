@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import NewsDetail from './pages/NewsDetail';
 import NewsEditor from './pages/NewsEditor';
+import SearchPage from './pages/SearchPage';
 
 // Import Quill styles
 import 'react-quill/dist/quill.snow.css';
@@ -48,6 +49,7 @@ function App() {
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/create" element={<NewsEditor />} />
           <Route path="/edit/:id" element={<NewsEditor />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </Box>
     </ThemeProvider>
