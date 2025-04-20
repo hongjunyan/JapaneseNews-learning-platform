@@ -20,26 +20,28 @@
 
 ### 運行應用程式
 
-1. 克隆存儲庫
+1. 使用 Git 複製專案：
+   ```bash
+   git clone https://github.com/your-username/japanese-news-learning-platform.git
+   ```
+
 2. 啟動應用程式：
+   ```bash
+   docker compose -f ./docker-compose.prod.yml up -d
+   ```
 
-```bash
-docker compose -f ./docker-compose.prod.yml up -d
-```
+3. 打開瀏覽器並輸入網址： `http://localhost`
 
-3. 打開瀏覽器並導航至 `http://localhost`
-
-4. 所有新聞都會保存在 `./backend/app.db`
-
+4. 所有新聞都會儲存在 `./backend/app.db` 資料庫中
 
 
 ## 功能特點
 
-- 創建和管理多個新聞文章
-- 為日文句子和中文筆記添加文本區塊
-- 支援不同風格、大小、顏色等文本格式
+- 建立和管理多個新聞文章
+- 為日文句子和中文筆記新增文字區塊
+- 支援不同樣式、大小、顏色等文字格式
 - 自動為日文漢字添加振假名
-- 美觀且直覺的使用者界面
+- 美觀且直覺的使用者介面
 
 ## 技術架構
 
@@ -62,25 +64,25 @@ docker compose -f ./docker-compose.prod.yml up -d
 │   ├── Dockerfile
 │   ├── public/
 │   └── src/
-│       ├── components/  # 可重用的 UI 組件
-│       ├── pages/       # 頁面組件
+│       ├── components/  # 可重複使用的 UI 元件
+│       ├── pages/       # 頁面元件
 │       └── services/    # API 服務
-├── nginx/               # Nginx 配置
+├── nginx/               # Nginx 設定
 │   └── nginx.conf
-├── docker-compose.yml   # Docker Compose 配置
-└── README.md            # 此文件
+├── docker-compose.yml   # Docker Compose 設定
+└── README.md            # 此檔案
 ```
 
 ## 使用方法
 
-1. 點擊「新しいニュース」按鈕創建新的新聞文章
-2. 使用日文文本和中文筆記為文章添加筆記
-3. 使用格式工具欄根據需要格式化文本
+1. 點擊「新しいニュース」按鈕建立新的新聞文章
+2. 使用日文文字和中文筆記為文章添加筆記
+3. 使用格式工具列依需要格式化文字
 4. 查看帶有自動振假名標註的文章
 
 ## 開發
 
-在開發模式下運行應用程式：
+在開發模式下執行應用程式：
 
 ```bash
 # Backend
