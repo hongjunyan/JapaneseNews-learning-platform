@@ -52,7 +52,7 @@ A platform for taking notes on Japanese news articles with automatic furigana an
 2. Start the application:
 
 ```bash
-docker-compose up
+docker compose -f ./docker-compose.prod.yml up -d
 ```
 
 3. Open your browser and navigate to `http://localhost`

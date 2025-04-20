@@ -38,10 +38,26 @@
 
 .ql-editor ul > li {
   list-style-type: disc;
+  /* 確保只使用 ::marker 而不是 ::before */
+  position: relative;
 }
 
 .ql-editor ol > li {
   list-style-type: decimal;
+  /* 確保只使用 ::marker 而不是 ::before */
+  position: relative;
+}
+
+/* 確保只有 ::marker 被使用，禁用 ::before 的樣式 */
+.ql-editor li::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* 自定義 ::marker 的樣式 */
+.ql-editor li::marker {
+  color: inherit;
+  font-weight: normal;
 }
 
 /* Ruby (Furigana) 樣式 */
