@@ -1,81 +1,86 @@
-# Japanese News Learning Platform
+# 日本新聞學習平台
 
-A platform for taking notes on Japanese news articles with automatic furigana annotation.
+一個用於記錄日本新聞文章筆記的平台，具有自動振假名標註功能。
 
 
-## Progress Tracking
+## 進度追蹤
 
-Below is a record of uploaded news notes:
+以下是已上傳的新聞筆記記錄：
 
-| Date | News | Link |
+| 日期 | 新聞 | 連結 |
 |------|------|------|
 | 2025-04-20 | 日経平均 一時3万1000円割れ トランプ関税で景気後退懸念 | [Link](https://www.youtube.com/watch?v=--Id7OU34Ek) |
 
-## Features
 
-- Create and manage multiple news articles
-- Add text blocks for Japanese sentences and Chinese notes
-- Format text with different styles, sizes, colors, etc.
-- Automatically adds furigana to Japanese kanji characters
-- Beautiful and intuitive user interface
+## 開始使用
 
-## Tech Stack
+### 前置需求
+
+- Docker 和 Docker Compose
+
+### 運行應用程式
+
+1. 克隆存儲庫
+2. 啟動應用程式：
+
+```bash
+docker compose -f ./docker-compose.prod.yml up -d
+```
+
+3. 打開瀏覽器並導航至 `http://localhost`
+
+4. 所有新聞都會保存在 `./backend/app.db`
+
+
+
+## 功能特點
+
+- 創建和管理多個新聞文章
+- 為日文句子和中文筆記添加文本區塊
+- 支援不同風格、大小、顏色等文本格式
+- 自動為日文漢字添加振假名
+- 美觀且直覺的使用者界面
+
+## 技術架構
 
 - **Backend**: FastAPI, SQLite database
 - **Frontend**: React, Material UI
 - **Containerization**: Docker, Docker Compose
 - **Japanese Processing**: Fugashi, unidic-lite
 
-## Project Structure
+## 專案結構
 
 ```
 .
-├── backend/             # FastAPI application
+├── backend/             # FastAPI 應用程式
 │   ├── Dockerfile
-│   ├── database.py      # SQLAlchemy models
-│   ├── furigana.py      # Japanese text processing
-│   ├── main.py          # API endpoints
+│   ├── database.py      # SQLAlchemy 模型
+│   ├── furigana.py      # 日文文本處理
+│   ├── main.py          # API 端點
 │   └── requirements.txt
-├── frontend/            # React application
+├── frontend/            # React 應用程式
 │   ├── Dockerfile
 │   ├── public/
 │   └── src/
-│       ├── components/  # Reusable UI components
-│       ├── pages/       # Page components
-│       └── services/    # API services
-├── nginx/               # Nginx configuration
+│       ├── components/  # 可重用的 UI 組件
+│       ├── pages/       # 頁面組件
+│       └── services/    # API 服務
+├── nginx/               # Nginx 配置
 │   └── nginx.conf
-├── docker-compose.yml   # Docker Compose configuration
-└── README.md            # This file
+├── docker-compose.yml   # Docker Compose 配置
+└── README.md            # 此文件
 ```
 
-## Getting Started
+## 使用方法
 
-### Prerequisites
+1. 點擊「新しいニュース」按鈕創建新的新聞文章
+2. 使用日文文本和中文筆記為文章添加筆記
+3. 使用格式工具欄根據需要格式化文本
+4. 查看帶有自動振假名標註的文章
 
-- Docker and Docker Compose
+## 開發
 
-### Running the Application
-
-1. Clone the repository
-2. Start the application:
-
-```bash
-docker compose -f ./docker-compose.prod.yml up -d
-```
-
-3. Open your browser and navigate to `http://localhost`
-
-## Usage
-
-1. Create a new news article by clicking the "新しいニュース" button
-2. Add notes to the article with Japanese text and Chinese notes
-3. Format the text as needed using the formatting toolbar
-4. View the article with automatic furigana annotations
-
-## Development
-
-To run the application in development mode:
+在開發模式下運行應用程式：
 
 ```bash
 # Backend
@@ -89,6 +94,6 @@ npm install
 npm start
 ```
 
-## License
+## 授權條款
 
-This project is open source and available under the MIT License. 
+本專案為開源專案，可根據 MIT License 使用。 
