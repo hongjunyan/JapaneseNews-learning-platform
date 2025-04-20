@@ -11,9 +11,6 @@ services:
     image: hongjunyan/japanese-news-frontend:1.0.0
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     environment:
       - REACT_APP_API_URL=http://localhost:8000
       - REACT_APP_CONTAINER=true
