@@ -17,6 +17,7 @@ class News(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
+    youtube_url = Column(String, nullable=True)  # Field for YouTube video URL
     created_at = Column(String)
     notes = relationship("Note", back_populates="news", cascade="all, delete-orphan")
 

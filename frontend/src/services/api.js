@@ -35,12 +35,22 @@ export const getNewsById = async (newsId) => {
   }
 };
 
-export const createNews = async (title) => {
+export const createNews = async (title, youtube_url = null) => {
   try {
-    const response = await api.post('/news', { title });
+    const response = await api.post('/news', { title, youtube_url });
     return response.data;
   } catch (error) {
     console.error('Error creating news:', error);
+    throw error;
+  }
+};
+
+export const updateNews = async (newsId, { title, youtube_url = null }) => {
+  try {
+    const response = await api.put(`/news/${newsId}`, { title, youtube_url });
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating news ${newsId}:`, error);
     throw error;
   }
 };

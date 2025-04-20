@@ -47,11 +47,13 @@ class NoteResponse(BaseModel):
 
 class NewsCreate(BaseModel):
     title: str
+    youtube_url: Optional[str] = None
 
 
 class NewsResponse(BaseModel):
     id: int
     title: str
+    youtube_url: Optional[str] = None
     created_at: str
     notes: List[NoteResponse] = []
 
@@ -69,6 +71,7 @@ def read_root():
 def create_news(news: NewsCreate, db: Session = Depends(get_db)):
     db_news = News(
         title=news.title,
+        youtube_url=news.youtube_url,
         created_at=datetime.now().isoformat()
     )
     db.add(db_news)
@@ -87,6 +90,20 @@ def get_news(news_id: int, db: Session = Depends(get_db)):
     db_news = db.query(News).filter(News.id == news_id).first()
     if db_news is None:
         raise HTTPException(status_code=404, detail="News not found")
+    return db_news
+
+
+@app.put("/news/{news_id}", response_model=NewsResponse)
+def update_news(news_id: int, news: NewsCreate, db: Session = Depends(get_db)):
+    db_news = db.query(News).filter(News.id == news_id).first()
+    if db_news is None:
+        raise HTTPException(status_code=404, detail="News not found")
+    
+    db_news.title = news.title
+    db_news.youtube_url = news.youtube_url
+    
+    db.commit()
+    db.refresh(db_news)
     return db_news
 
 

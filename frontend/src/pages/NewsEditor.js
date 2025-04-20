@@ -20,12 +20,15 @@ import {
   getNewsById, 
   createNote, 
   updateNote, 
-  deleteNote 
+  deleteNote,
+  createNews,
+  updateNews
 } from '../services/api';
 
 const NewsEditor = () => {
   const [newsData, setNewsData] = useState(null);
   const [title, setTitle] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -47,6 +50,7 @@ const NewsEditor = () => {
       // Use the data directly to update state
       setNewsData(data);
       setTitle(data.title);
+      setYoutubeUrl(data.youtube_url || '');
       setNotes(sortedNotes);
     } catch (error) {
       console.error('Error fetching news details:', error);
@@ -233,6 +237,29 @@ const NewsEditor = () => {
   
   const createdDate = newsData ? new Date(newsData.created_at).toLocaleDateString() : '';
   
+  const handleSaveNews = async () => {
+    try {
+      setSaving(true);
+      if (isNewNews) {
+        const newNews = await createNews(title, youtubeUrl || null);
+        navigate(`/edit/${newNews.id}`);
+      } else {
+        // Update news title and youtube_url
+        const updatedNews = await updateNews(id, {
+          title,
+          youtube_url: youtubeUrl || null
+        });
+        setNewsData(updatedNews);
+      }
+      setError(null);
+    } catch (error) {
+      console.error('Error saving news:', error);
+      setError('Failed to save news. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+  
   if (loading) {
     return (
       <Container maxWidth="md">
@@ -284,6 +311,29 @@ const NewsEditor = () => {
           disabled={saving}
           sx={{ mb: 3 }}
         />
+        
+        <TextField
+          label="YouTube Video URL (optional)"
+          variant="outlined"
+          fullWidth
+          value={youtubeUrl}
+          onChange={(e) => setYoutubeUrl(e.target.value)}
+          disabled={saving}
+          placeholder="https://www.youtube.com/watch?v=..."
+          helperText="Add a YouTube video URL related to this content"
+          sx={{ mb: 3 }}
+        />
+        
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSaveNews}
+            disabled={saving || !title.trim()}
+          >
+            {isNewNews ? 'Create News' : 'Save Changes'}
+          </Button>
+        </Box>
         
         {error && (
           <Alert severity="error" sx={{ my: 2 }}>

@@ -20,6 +20,17 @@ import { getNewsById } from '../services/api';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+// Helper function to extract YouTube video ID from URL
+const getYoutubeVideoId = (url) => {
+  if (!url) return null;
+  
+  // Handle different YouTube URL formats
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
 const NewsDetail = () => {
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -249,6 +260,37 @@ const NewsDetail = () => {
         <Typography variant="subtitle1" color="text.secondary" gutterBottom>
           Created: {new Date(news.created_at).toLocaleString()}
         </Typography>
+        
+        {news.youtube_url && (
+          <Box sx={{ my: 4 }}>
+            <Divider sx={{ mb: 3 }} />
+            <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                paddingTop: '56.25%', // 16:9 Aspect Ratio
+                overflow: 'hidden',
+                '& iframe': {
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: 0
+                }
+              }}
+            >
+              <iframe
+                src={`https://www.youtube.com/embed/${getYoutubeVideoId(news.youtube_url)}`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </Box>
+          </Box>
+        )}
         
         <Divider sx={{ my: 3 }} />
         
