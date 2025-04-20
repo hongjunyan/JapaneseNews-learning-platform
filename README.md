@@ -2,6 +2,15 @@
 
 A platform for taking notes on Japanese news articles with automatic furigana annotation.
 
+
+## Progress Tracking
+
+Below is a record of uploaded news notes:
+
+| Date | News | Link |
+|------|------|------|
+| 2025-04-20 | 日経平均 一時3万1000円割れ トランプ関税で景気後退懸念 | [Link](https://www.youtube.com/watch?v=--Id7OU34Ek) |
+
 ## Features
 
 - Create and manage multiple news articles
