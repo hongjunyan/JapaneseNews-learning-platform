@@ -6,6 +6,7 @@ services:
     volumes:
       - ./backend:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
 
   frontend:
     image: hongjunyan/japanese-news-frontend:1.0.0
@@ -16,6 +17,7 @@ services:
       - REACT_APP_CONTAINER=true
     depends_on:
       - backend
+    restart: always
 
   nginx:
     image: nginx:alpine
@@ -26,3 +28,4 @@ services:
     depends_on:
       - frontend
       - backend 
+    restart: always
