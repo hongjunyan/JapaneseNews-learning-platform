@@ -5,16 +5,12 @@ services:
     image: hongjunyan/japanese-news-backend:2.0.0
     volumes:
       - ./backend/data:/app/data
-    ports:
-      - "8000:8000"
     environment:
       - TZ=Asia/Taipei
     restart: unless-stopped
 
   frontend:
     image: hongjunyan/japanese-news-frontend:2.0.0
-    ports:
-      - "3000:3000"
     environment:
       - TZ=Asia/Taipei
     depends_on:
