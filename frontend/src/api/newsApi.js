@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for API calls
-const API_URL = 'http://backend:8000';
+const API_URL = 'http://localhost:8000';
 
 // Get all news entries
 export const getAllNews = async () => {
