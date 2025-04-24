@@ -1,6 +1,6 @@
-# 日本新聞學習平台
+# 日本新聞筆記
 
-一個用於記錄日本新聞文章筆記的平台，具有自動振假名標註功能。
+一個支持振假名標記的日本新聞文章筆記平台。
 
 
 ## 進度追蹤
@@ -9,95 +9,78 @@
 
 | 日期 | 新聞 | 連結 |
 |------|------|------|
-| 2025-04-20 | AIでマグロの脂のり評価　世界初の検査装置 | [Link](https://www.youtube.com/watch?v=CrAdYelsDVU) |
-
+| 2025-04-20 | AIでマグロの脂のり評価　世界初の検査装置 | Link |
 
 ## 開始使用
 
 ### 前置需求
 
-- Docker 和 Docker Compose
+- 請安裝docker desktop
 
 ### 運行應用程式
 
 1. 使用 Git 複製專案：
-   ```bash
+   ```
    git clone https://github.com/your-username/japanese-news-learning-platform.git
+   cd JapaneseNews-learning-platform
    ```
 
 2. 啟動應用程式：
-   ```bash
+   ```
    docker compose -f ./docker-compose.prod.yml up -d
    ```
 
-3. 打開瀏覽器並輸入網址： `http://localhost`
+3. 打開瀏覽器並輸入網址：
+   - 網頁界面：http://localhost
+   - API：http://localhost/api
 
-4. 所有新聞都會儲存在 `./backend/app.db` 資料庫中
+4. 所有新聞都會儲存在 `./backend/data/app.db` 資料庫中
 
+### 開發環境
 
-## 功能特點
+該項目包含三個服務：
 
-- 建立和管理多個新聞文章
-- 為日文句子和中文筆記新增文字區塊
-- 支援不同樣式、大小、顏色等文字格式
-- 自動為日文漢字添加振假名
-- 可搜尋所有筆記內容（日文和中文）
-- 美觀且直覺的使用者介面
+- **後端**：FastAPI 與 SQLite 數據庫
+  - 訪問地址：http://localhost:8000
+  
+- **前端**：具有 Markdown 編輯功能的 React 應用
+  - 訪問地址：http://localhost:3000
+  
+- **Nginx**：路由流量到前端和後端的反向代理
+  - 將端口 80 上的所有流量路由到前端
+  - 將 /api/* 請求路由到後端
 
-## 技術架構
+## 使用振假名標記
 
-- **Backend**: FastAPI, SQLite database
-- **Frontend**: React, Material UI
-- **Containerization**: Docker, Docker Compose
-- **Japanese Processing**: Fugashi, unidic-lite
-
-## 專案結構
+要為漢字添加振假名，請在 Markdown 中使用以下語法：
 
 ```
-.
-├── backend/             # FastAPI 應用程式
+[漢字]{ふりがな}
+```
+
+例如：
+- `[日本語]{にほんご}` 將顯示為帶有振假名 にほんご 的 日本語
+- `[新聞]{しんぶん}` 將顯示為帶有振假名 しんぶん 的 新聞
+
+## 項目結構
+
+```
+jpnews_note/
+├── backend/               # FastAPI 後端
+│   ├── data/              # SQLite 數據庫文件
 │   ├── Dockerfile
-│   ├── database.py      # SQLAlchemy 模型
-│   ├── furigana.py      # 日文文本處理
-│   ├── main.py          # API 端點
-│   └── requirements.txt
-├── frontend/            # React 應用程式
-│   ├── Dockerfile
+│   ├── main.py            # 主應用程序文件
+│   └── requirements.txt   # Python 依賴項
+├── frontend/              # React 前端
 │   ├── public/
-│   └── src/
-│       ├── components/  # 可重複使用的 UI 元件
-│       ├── pages/       # 頁面元件
-│       └── services/    # API 服務
-├── nginx/               # Nginx 設定
+│   ├── src/
+│   │   ├── components/    # 可重用組件
+│   │   ├── pages/         # 頁面組件
+│   │   ├── api/           # API 集成
+│   │   └── ...
+│   ├── Dockerfile
+│   └── package.json       # JavaScript 依賴項
+├── nginx/                 # Nginx 配置
 │   └── nginx.conf
-├── docker-compose.yml   # Docker Compose 設定
-└── README.md            # 此檔案
-```
-
-## 使用方法
-
-1. 點擊「新しいニュース」按鈕建立新的新聞文章
-2. 使用日文文字和中文筆記為文章添加筆記
-3. 使用格式工具列依需要格式化文字
-4. 查看帶有自動振假名標註的文章
-5. 點擊上方「検索」按鈕搜尋筆記，輸入日文或中文關鍵字查找相關筆記
-
-## 開發
-
-在開發模式下執行應用程式：
-
-```bash
-# Backend
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-
-# Frontend
-cd frontend
-npm install
-npm start
-```
-
-## 授權條款
-
-本專案為開源專案，可根據 MIT License 使用。 
+└── docker-compose.yml     # Docker Compose 配置
+``` 

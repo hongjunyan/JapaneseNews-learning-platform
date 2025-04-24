@@ -74,3 +74,4 @@ dist/
 .fusebox/
 .dynamodb/
 .tern-port 
+spec.md

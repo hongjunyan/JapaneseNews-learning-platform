@@ -1,32 +1,14 @@
-version: '3.8'
+version: '3'
 
 services:
   backend:
     build:
       context: ./backend
-    image: hongjunyan/japanese-news-backend:1.0.0
-    
+      dockerfile: Dockerfile
+    image: hongjunyan/japanese-news-backend:2.0.0
+
   frontend:
     build:
       context: ./frontend
-      args:
-        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:8000}
-    image: hongjunyan/japanese-news-frontend:1.0.0
-
-# 使用方法：
-# 1. 設定環境變數
-#    export DOCKER_USERNAME=你的Docker Hub使用者名稱
-#    export TAG=你想要的標籤 (例如: v1.0.0, latest)
-#    export REACT_APP_API_URL=後端API的URL (如需使用非預設URL)
-#
-# 2. 構建映像:
-#    docker-compose -f docker-compose.build.yaml build
-#
-# 3. 登入Docker Hub:
-#    docker login
-#
-# 4. 上傳映像:
-#    docker-compose -f docker-compose.build.yaml push
-#
-# 5. 一次完成構建和上傳:
-#    docker-compose -f docker-compose.build.yaml build && docker-compose -f docker-compose.build.yaml push 
+      dockerfile: Dockerfile
+    image: hongjunyan/japanese-news-frontend:2.0.0

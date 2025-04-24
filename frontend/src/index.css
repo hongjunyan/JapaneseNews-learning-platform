@@ -1,11 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background-color: #FFFFFF;
 }
 
 code {
@@ -13,22 +16,133 @@ code {
     monospace;
 }
 
-/* Ruby text (furigana) styling */
-ruby {
-  display: inline-flex;
-  flex-direction: column-reverse;
-}
-
-rt {
+/* Japanese-style decoration elements */
+.jp-page-title {
+  position: relative;
+  font-family: 'Shippori Mincho', serif;
   text-align: center;
-  font-size: 0.6em;
-  color: #666;
-  line-height: 1.5;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
-/* For Japanese text */
-.japanese-text {
-  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-  line-height: 2;
-  font-size: 1.2rem;
+.jp-page-title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background-color: #D22630;
+}
+
+.jp-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.jp-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.jp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #D22630;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.jp-card:hover::before {
+  opacity: 1;
+}
+
+.jp-divider {
+  height: 1px;
+  background-color: #EEEEEE;
+  margin: 1.5rem 0;
+}
+
+.furigana {
+  font-size: 0.6em;
+  position: relative;
+  top: -0.5em;
+  color: #666666;
+}
+
+.kanji {
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Japanese corner decoration */
+.jp-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.jp-corner:after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 40px;
+  height: 40px;
+  background-color: #D22630;
+  transform: rotate(45deg);
+  opacity: 0.9;
+}
+
+/* Styles for markdown preview */
+.markdown-preview {
+  background-color: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 0;
+  border: 1px solid #EEEEEE;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+  font-family: 'Shippori Mincho', serif;
+}
+
+.markdown-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid #EEEEEE;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid #EEEEEE;
+  padding: 8px;
+  text-align: left;
+}
+
+.markdown-preview th {
+  background-color: #FAFAFA;
+  font-weight: 500;
+}
+
+.markdown-preview tr:nth-child(even) {
+  background-color: #FAFAFA;
+}
+
+/* Make sure inline html is displayed correctly */
+.markdown-preview span[style*="background-color"] {
+  padding: 2px 0;
 } 
