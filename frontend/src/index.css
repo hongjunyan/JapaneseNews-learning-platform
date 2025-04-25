@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&display=swap');
 
 body {
   margin: 0;
@@ -8,7 +9,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #FFFFFF;
+  background-color: #FFFEF7;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
 }
 
 code {
@@ -23,6 +26,8 @@ code {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
+  color: #2A4B7C;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 }
 
 .jp-page-title:after {
@@ -31,20 +36,23 @@ code {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 2px;
-  background-color: #D22630;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #D22630, #68B0AB);
+  border-radius: 3px;
 }
 
 .jp-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
   position: relative;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #EEEEEE !important;
 }
 
 .jp-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08) !important;
 }
 
 .jp-card::before {
@@ -54,9 +62,9 @@ code {
   left: 0;
   width: 100%;
   height: 5px;
-  background-color: #D22630;
+  background: linear-gradient(to right, #D22630, #68B0AB);
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s;
 }
 
 .jp-card:hover::before {
@@ -65,20 +73,21 @@ code {
 
 .jp-divider {
   height: 1px;
-  background-color: #EEEEEE;
-  margin: 1.5rem 0;
+  background: linear-gradient(to right, rgba(210, 38, 48, 0.2), rgba(104, 176, 171, 0.2));
+  margin: 1.8rem 0;
 }
 
 .furigana {
-  font-size: 0.6em;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 0.65em;
   position: relative;
   top: -0.5em;
-  color: #666666;
+  color: #555555;
 }
 
 .kanji {
   font-weight: 500;
-  color: #333333;
+  color: #2A4B7C;
 }
 
 /* Japanese corner decoration */
@@ -99,24 +108,40 @@ code {
   right: -20px;
   width: 40px;
   height: 40px;
-  background-color: #D22630;
+  background: linear-gradient(135deg, #D22630, #68B0AB);
   transform: rotate(45deg);
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 /* Styles for markdown preview */
 .markdown-preview {
-  background-color: #FFFFFF;
-  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1.8rem;
   border-radius: 0;
   border: 1px solid #EEEEEE;
   font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.7;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
 
 .markdown-preview h1,
 .markdown-preview h2,
 .markdown-preview h3 {
   font-family: 'Shippori Mincho', serif;
+  color: #2A4B7C;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.markdown-preview h1::after,
+.markdown-preview h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, #D22630, #68B0AB);
 }
 
 .markdown-preview table {
@@ -129,20 +154,21 @@ code {
 .markdown-preview th,
 .markdown-preview td {
   border: 1px solid #EEEEEE;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
 }
 
 .markdown-preview th {
-  background-color: #FAFAFA;
+  background-color: rgba(104, 176, 171, 0.1);
   font-weight: 500;
 }
 
 .markdown-preview tr:nth-child(even) {
-  background-color: #FAFAFA;
+  background-color: rgba(249, 219, 198, 0.1);
 }
 
 /* Make sure inline html is displayed correctly */
 .markdown-preview span[style*="background-color"] {
-  padding: 2px 0;
+  padding: 2px 4px;
+  border-radius: 2px;
 } 

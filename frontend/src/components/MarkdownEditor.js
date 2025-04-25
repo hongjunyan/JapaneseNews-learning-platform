@@ -232,11 +232,18 @@ const MarkdownEditor = ({ value, onChange }) => {
 
   // Colors for highlighting
   const highlightColors = [
-    { name: 'Sakura Pink', value: '#FFEBEE' },
+    { name: 'Sakura Pink', value: '#FFE4E6' },
     { name: 'Matcha Green', value: '#F1F8E9' },
     { name: 'Sky Blue', value: '#E3F2FD' },
     { name: 'Sunset Orange', value: '#FFF3E0' },
-    { name: 'Lavender', value: '#F3E5F5' }
+    { name: 'Lavender', value: '#F3E5F5' },
+    { name: 'Ghibli Teal', value: '#E0F2F1' },
+    { name: 'Totoro Gray', value: '#ECEFF1' },
+    { name: 'Chihiro Yellow', value: '#FFFDE7' },
+    { name: 'Howl Pastel Blue', value: '#E8F5E9' },
+    { name: 'Ponyo Coral', value: '#FFEBEE' },
+    { name: 'Mononoke Forest', value: '#E8F5E9' },
+    { name: 'Castle Gold', value: '#FFF8E1' }
   ];
 
   // Colors for text
@@ -245,7 +252,14 @@ const MarkdownEditor = ({ value, onChange }) => {
     { name: 'Blue', value: '#1976D2' },
     { name: 'Green', value: '#388E3C' },
     { name: 'Purple', value: '#7B1FA2' },
-    { name: 'Orange', value: '#E64A19' }
+    { name: 'Orange', value: '#E64A19' },
+    { name: 'Ghibli Blue', value: '#0288D1' },
+    { name: 'Ghibli Teal', value: '#00897B' },
+    { name: 'Forest Green', value: '#558B2F' },
+    { name: 'Earthy Brown', value: '#795548' },
+    { name: 'Totoro Gray', value: '#546E7A' },
+    { name: 'Studio Red', value: '#C62828' },
+    { name: 'Deep Indigo', value: '#303F9F' }
   ];
 
   return (
@@ -267,7 +281,7 @@ const MarkdownEditor = ({ value, onChange }) => {
           sx={{
             width: '4px',
             height: '18px',
-            backgroundColor: '#D22630',
+            background: 'linear-gradient(to bottom, #D22630, #68B0AB)',
             display: 'inline-block',
             marginRight: '8px',
           }}
@@ -280,9 +294,11 @@ const MarkdownEditor = ({ value, onChange }) => {
         gutterBottom 
         sx={{ 
           mb: 2, 
-          color: '#666666',
+          color: '#555555',
           display: 'flex',
           alignItems: 'center',
+          fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          fontWeight: 400,
         }}
       >
         <TranslateIcon fontSize="small" sx={{ mr: 0.5, color: '#2A4B7C' }} />
@@ -295,19 +311,23 @@ const MarkdownEditor = ({ value, onChange }) => {
           p: 2, 
           mb: 2, 
           border: '1px solid #EEEEEE',
-          backgroundColor: '#FAFAFA'
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
         }}
       >
         <ButtonGroup 
           variant="outlined" 
           sx={{ 
             '& .MuiButton-root': {
-              borderColor: '#DDDDDD',
-              color: '#666666',
+              borderColor: '#E0E0E0',
+              color: '#555555',
               backgroundColor: '#FFFFFF',
+              transition: 'all 0.2s ease',
               '&:hover': {
                 borderColor: '#D22630',
                 backgroundColor: 'rgba(210, 38, 48, 0.04)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 3px 5px rgba(0, 0, 0, 0.08)'
               }
             }
           }}
@@ -385,7 +405,15 @@ const MarkdownEditor = ({ value, onChange }) => {
           PaperProps={{
             sx: {
               border: '1px solid #EEEEEE',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+              maxHeight: '400px',
+              width: '180px',
+              '& .MuiList-root': {
+                padding: '8px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '4px'
+              }
             }
           }}
         >
@@ -395,22 +423,30 @@ const MarkdownEditor = ({ value, onChange }) => {
               onClick={() => handleHighlight(color.value)}
               sx={{ 
                 display: 'flex', 
+                flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px 4px',
+                borderRadius: '4px',
+                transition: 'all 0.2s',
                 '&:hover': {
                   backgroundColor: 'rgba(210, 38, 48, 0.04)',
+                  transform: 'scale(1.05)'
                 }
               }}
             >
               <Box 
                 sx={{ 
-                  width: 16, 
-                  height: 16, 
+                  width: 20, 
+                  height: 20, 
                   backgroundColor: color.value, 
-                  marginRight: 1,
+                  marginBottom: 0.5,
                   border: '1px solid #EEEEEE',
+                  borderRadius: '4px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
                 }}
               />
-              {color.name}
+              <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>{color.name}</Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -422,7 +458,15 @@ const MarkdownEditor = ({ value, onChange }) => {
           PaperProps={{
             sx: {
               border: '1px solid #EEEEEE',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+              maxHeight: '400px',
+              width: '180px',
+              '& .MuiList-root': {
+                padding: '8px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '4px'
+              }
             }
           }}
         >
@@ -432,22 +476,30 @@ const MarkdownEditor = ({ value, onChange }) => {
               onClick={() => handleTextColor(color.value)}
               sx={{ 
                 display: 'flex', 
+                flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px 4px',
+                borderRadius: '4px',
+                transition: 'all 0.2s',
                 '&:hover': {
                   backgroundColor: 'rgba(210, 38, 48, 0.04)',
+                  transform: 'scale(1.05)'
                 }
               }}
             >
               <Box 
                 sx={{ 
-                  width: 16, 
-                  height: 16, 
+                  width: 20, 
+                  height: 20, 
                   backgroundColor: color.value, 
-                  marginRight: 1,
+                  marginBottom: 0.5,
                   border: '1px solid #EEEEEE',
+                  borderRadius: '4px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
                 }}
               />
-              <Typography style={{ color: color.value }}>{color.name}</Typography>
+              <Typography variant="caption" sx={{ fontSize: '0.7rem', color: color.value, fontWeight: 'bold' }}>{color.name}</Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -462,12 +514,23 @@ const MarkdownEditor = ({ value, onChange }) => {
             top: 0,
             right: 0,
             bottom: 0,
-            width: '30px',
+            width: '40px',
             backgroundImage: `url("${brushStroke}")`,
             backgroundRepeat: 'repeat-y',
-            backgroundSize: '30px auto',
-            opacity: 1,
+            backgroundSize: '40px auto',
+            opacity: 0.8,
             pointerEvents: 'none',
+            zIndex: 1
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            background: 'linear-gradient(to right, #D22630, #68B0AB, #8FC0A9, #F9DBC6)',
+            opacity: 0.6,
             zIndex: 1
           }
         }}
@@ -483,20 +546,39 @@ const MarkdownEditor = ({ value, onChange }) => {
           inputRef={editorRef}
           sx={{
             '& .MuiOutlinedInput-root': {
-              '& fieldset': { borderColor: '#EEEEEE' },
-              '&:hover fieldset': { borderColor: '#D22630' },
-              '&.Mui-focused fieldset': { borderColor: '#D22630' },
-              backgroundColor: '#FFFFFF',
+              '& fieldset': { 
+                borderColor: '#EEEEEE',
+                borderWidth: '1px'
+              },
+              '&:hover fieldset': { 
+                borderColor: '#2A4B7C',
+                borderWidth: '1px'
+              },
+              '&.Mui-focused fieldset': { 
+                borderColor: '#2A4B7C',
+                borderWidth: '1px'
+              },
+              backgroundColor: 'rgba(255, 255, 255, 0.92)',
               fontFamily: '"Noto Sans JP", sans-serif',
+              fontSize: '0.95rem',
+              lineHeight: 1.7,
+              letterSpacing: '0.01em',
+              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.03)',
+              transition: 'all 0.3s',
+              '&:hover': {
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
+              }
             },
           }}
           InputProps={{
             sx: {
               '&::placeholder': {
-                color: '#999999',
-                opacity: 0.7,
+                color: '#888888',
+                opacity: 0.8,
+                fontStyle: 'italic'
               },
-              pr: '40px',  // Add right padding for the brush stroke decoration
+              pr: '50px',  // Add right padding for the brush stroke decoration
+              p: 2.5,
             },
           }}
         />
