@@ -103,7 +103,9 @@ const ViewNote = () => {
             borderRadius: 2,
             backgroundColor: '#fff',
             mb: 3,
-            width: '100%'
+            width: '100%',
+            maxWidth: '800px',
+            mx: 'auto'
           }}
         >
           <Box

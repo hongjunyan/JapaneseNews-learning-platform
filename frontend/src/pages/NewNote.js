@@ -16,6 +16,7 @@ const NewNote = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
 
@@ -30,7 +31,7 @@ const NewNote = () => {
     
     try {
       setSaving(true);
-      await createNews({ title, content });
+      await createNews({ title, content, youtube_url: youtubeUrl });
       navigate('/');
     } catch (error) {
       setError('Failed to save note. Please try again.');
@@ -58,6 +59,18 @@ const NewNote = () => {
           autoFocus
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+        
+        <TextField
+          margin="normal"
+          fullWidth
+          id="youtubeUrl"
+          label="YouTube URL"
+          name="youtubeUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+          value={youtubeUrl}
+          onChange={(e) => setYoutubeUrl(e.target.value)}
           sx={{ mb: 3 }}
         />
         

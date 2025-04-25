@@ -3,58 +3,71 @@
   <!-- Background with gradient -->
   <defs>
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E6F0FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F8F8FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#F8F8F8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E6E6E6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#A8C7FA;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#7EB3FF;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="islandGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#A2C992;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7D9A6D;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Main background -->
+  <!-- Sky background -->
   <rect width="900" height="200" fill="url(#bgGradient)" />
   
-  <!-- Mount Fuji -->
-  <path d="M450,40 L350,180 L550,180 Z" fill="#F0F0F0" />
-  <path d="M450,60 L400,180 L500,180 Z" fill="#FAFAFA" />
-  
   <!-- Sun -->
-  <circle cx="380" cy="70" r="30" fill="#FFE0E0" opacity="0.7" />
+  <circle cx="150" cy="60" r="30" fill="#FFE0E0" opacity="0.7" />
   
-  <!-- Decorative lines representing mountains in the distance -->
-  <path d="M0,140 C150,110 250,150 400,120 C550,90 750,130 900,100" stroke="#EEEEEE" stroke-width="1" fill="none" />
-  <path d="M0,160 C200,140 350,170 500,130 C650,100 800,150 900,120" stroke="#EEEEEE" stroke-width="1" fill="none" />
-  <path d="M0,180 C100,170 300,160 450,170 C600,180 750,160 900,170" stroke="#EEEEEE" stroke-width="1" fill="none" />
+  <!-- Ocean -->
+  <rect x="0" y="140" width="900" height="60" fill="url(#waterGradient)" />
   
-  <!-- Cherry blossoms -->
-  <g transform="translate(600,50) scale(0.7)">
+  <!-- Enoshima Island -->
+  <path d="M250,160 C280,140 320,135 360,155 C380,165 390,170 400,160 C410,150 430,145 450,160 L450,180 L250,180 Z" fill="url(#islandGradient)" />
+  <!-- Small details on island -->
+  <path d="M300,155 C310,145 330,150 340,160" stroke="#5B7E4B" stroke-width="1" fill="none" />
+  <path d="M380,150 C390,145 400,155 410,155" stroke="#5B7E4B" stroke-width="1" fill="none" />
+  
+  <!-- Mount Fuji -->
+  <path d="M600,50 L450,180 L750,180 Z" fill="url(#mountainGradient)" />
+  <path d="M600,70 L500,180 L700,180 Z" fill="#F0F0F0" />
+  <!-- Snow cap details -->
+  <path d="M600,70 L580,90 L620,90 Z" fill="#FFFFFF" />
+  <path d="M570,100 L600,80 L630,100" stroke="#E6E6E6" stroke-width="1" fill="none" />
+  
+  <!-- Decorative cloud elements -->
+  <path d="M150,100 C180,90 200,110 230,100 C260,90 280,105 300,95" stroke="#FFFFFF" stroke-width="3" fill="none" />
+  <path d="M500,80 C530,70 550,90 580,80 C610,70 630,85 650,75" stroke="#FFFFFF" stroke-width="3" fill="none" />
+  <path d="M700,110 C730,100 750,120 780,110 C810,100 830,115 850,105" stroke="#FFFFFF" stroke-width="2" fill="none" />
+  
+  <!-- Water reflections -->
+  <path d="M0,160 C50,165 100,155 150,160 C200,165 250,155 300,160" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.3" />
+  <path d="M500,160 C550,165 600,155 650,160 C700,165 750,155 800,160 C850,165 900,155 950,160" stroke="#FFFFFF" stroke-width="1" fill="none" opacity="0.3" />
+  
+  <!-- Cherry blossoms in the corner -->
+  <g transform="translate(800,40) scale(0.7)">
     <path d="M30,10 C34,10 36,14 36,18 C36,22 34,26 30,26 C26,26 24,22 24,18 C24,14 26,10 30,10 Z" fill="#FFD7D7" />
     <path d="M30,34 C34,34 36,38 36,42 C36,46 34,50 30,50 C26,50 24,46 24,42 C24,38 26,34 30,34 Z" fill="#FFD7D7" />
     <path d="M10,30 C10,26 14,24 18,24 C22,24 26,26 26,30 C26,34 22,36 18,36 C14,36 10,34 10,30 Z" fill="#FFD7D7" />
     <path d="M34,30 C34,26 38,24 42,24 C46,24 50,26 50,30 C50,34 46,36 42,36 C38,36 34,34 34,30 Z" fill="#FFD7D7" />
     <path d="M17,17 C20,14 24,14 27,17 C30,20 30,24 27,27 C24,30 20,30 17,27 C14,24 14,20 17,17 Z" fill="#FFD7D7" />
-    <path d="M33,33 C36,30 40,30 43,33 C46,36 46,40 43,43 C40,46 36,46 33,43 C30,40 30,36 33,33 Z" fill="#FFD7D7" />
-    <path d="M33,17 C36,14 40,14 43,17 C46,20 46,24 43,27 C40,30 36,30 33,27 C30,24 30,20 33,17 Z" fill="#FFD7D7" />
-    <path d="M17,33 C20,30 24,30 27,33 C30,36 30,40 27,43 C24,46 20,46 17,43 C14,40 14,36 17,33 Z" fill="#FFD7D7" />
     <circle cx="30" cy="30" r="5" fill="#FFAAAA" />
   </g>
   
-  <g transform="translate(650,80) scale(0.5)">
-    <path d="M30,10 C34,10 36,14 36,18 C36,22 34,26 30,26 C26,26 24,22 24,18 C24,14 26,10 30,10 Z" fill="#FFD7D7" opacity="0.8" />
-    <path d="M30,34 C34,34 36,38 36,42 C36,46 34,50 30,50 C26,50 24,46 24,42 C24,38 26,34 30,34 Z" fill="#FFD7D7" opacity="0.8" />
-    <path d="M10,30 C10,26 14,24 18,24 C22,24 26,26 26,30 C26,34 22,36 18,36 C14,36 10,34 10,30 Z" fill="#FFD7D7" opacity="0.8" />
-    <path d="M34,30 C34,26 38,24 42,24 C46,24 50,26 50,30 C50,34 46,36 42,36 C38,36 34,34 34,30 Z" fill="#FFD7D7" opacity="0.8" />
-    <circle cx="30" cy="30" r="5" fill="#FFAAAA" opacity="0.8" />
-  </g>
-  
-  <g transform="translate(560,30) scale(0.4)">
-    <path d="M30,10 C34,10 36,14 36,18 C36,22 34,26 30,26 C26,26 24,22 24,18 C24,14 26,10 30,10 Z" fill="#FFD7D7" opacity="0.6" />
-    <path d="M30,34 C34,34 36,38 36,42 C36,46 34,50 30,50 C26,50 24,46 24,42 C24,38 26,34 30,34 Z" fill="#FFD7D7" opacity="0.6" />
-    <path d="M10,30 C10,26 14,24 18,24 C22,24 26,26 26,30 C26,34 22,36 18,36 C14,36 10,34 10,30 Z" fill="#FFD7D7" opacity="0.6" />
-    <path d="M34,30 C34,26 38,24 42,24 C46,24 50,26 50,30 C50,34 46,36 42,36 C38,36 34,34 34,30 Z" fill="#FFD7D7" opacity="0.6" />
-    <circle cx="30" cy="30" r="5" fill="#FFAAAA" opacity="0.6" />
-  </g>
+  <!-- Bridge to Enoshima -->
+  <path d="M200,170 L250,165" stroke="#8B4513" stroke-width="2" />
+  <path d="M200,173 L250,168" stroke="#8B4513" stroke-width="2" />
   
   <!-- Japanese style wave pattern at bottom -->
-  <path d="M0,190 C30,185 60,195 90,190 C120,185 150,195 180,190 C210,185 240,195 270,190 C300,185 330,195 360,190 C390,185 420,195 450,190 C480,185 510,195 540,190 C570,185 600,195 630,190 C660,185 690,195 720,190 C750,185 780,195 810,190 C840,185 870,195 900,190" stroke="#D22630" stroke-width="1" fill="none" opacity="0.2" />
-  <path d="M0,185 C30,180 60,190 90,185 C120,180 150,190 180,185 C210,180 240,190 270,185 C300,180 330,190 360,185 C390,180 420,190 450,185 C480,180 510,190 540,185 C570,180 600,190 630,185 C660,180 690,190 720,185 C750,180 780,190 810,185 C840,180 870,190 900,185" stroke="#D22630" stroke-width="1" fill="none" opacity="0.1" />
+  <path d="M0,190 C30,185 60,195 90,190 C120,185 150,195 180,190 C210,185 240,195 270,190 C300,185 330,195 360,190 C390,185 420,195 450,190 C480,185 510,195 540,190 C570,185 600,195 630,190 C660,185 690,195 720,190 C750,185 780,195 810,190 C840,185 870,195 900,190" stroke="#1A56DB" stroke-width="1" fill="none" opacity="0.2" />
+  <path d="M0,185 C30,180 60,190 90,185 C120,180 150,190 180,185 C210,180 240,190 270,185 C300,180 330,190 360,185 C390,180 420,190 450,185 C480,180 510,190 540,185 C570,180 600,190 630,185 C660,180 690,190 720,185 C750,180 780,190 810,185 C840,180 870,190 900,185" stroke="#1A56DB" stroke-width="1" fill="none" opacity="0.1" />
   
   <!-- Red accent line -->
   <line x1="0" y1="195" x2="900" y2="195" stroke="#D22630" stroke-width="2" opacity="0.7" />
