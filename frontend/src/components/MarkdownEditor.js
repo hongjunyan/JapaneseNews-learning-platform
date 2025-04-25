@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -15,6 +15,9 @@ import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Paper from '@mui/material/Paper';
 import TranslateIcon from '@mui/icons-material/Translate';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import CircularProgress from '@mui/material/CircularProgress';
+import { generateFurigana } from '../api/newsApi';
 
 // Japanese text constants
 const JP_TEXT = {
@@ -23,6 +26,7 @@ const JP_TEXT = {
   BOLD: '太字',
   ADD_FURIGANA: 'ふりがな追加',
   FURIGANA_SHORT: 'ふり',
+  AUTO_FURIGANA: '自動ふりがな',
   HIGHLIGHT: 'テキストをハイライト',
   ADD_TABLE: '表の追加',
   TEXT_COLOR: 'テキストの色を変更',
@@ -39,6 +43,7 @@ const MarkdownEditor = ({ value, onChange }) => {
   const colorMenuOpen = Boolean(colorMenuAnchorEl);
   const [textColorMenuAnchorEl, setTextColorMenuAnchorEl] = React.useState(null);
   const textColorMenuOpen = Boolean(textColorMenuAnchorEl);
+  const [isAutoFuriganaLoading, setIsAutoFuriganaLoading] = useState(false);
 
   const handleColorMenuClick = (event) => {
     setColorMenuAnchorEl(event.currentTarget);
@@ -202,6 +207,29 @@ const MarkdownEditor = ({ value, onChange }) => {
     }
   };
 
+  // Handle auto furigana generation
+  const handleAutoFurigana = async () => {
+    const { text, start, end } = getSelection();
+    
+    if (!text || text.trim() === '') {
+      return;
+    }
+    
+    try {
+      setIsAutoFuriganaLoading(true);
+      
+      const response = await generateFurigana(text);
+      
+      if (response && response.text) {
+        replaceSelection(response.text);
+      }
+    } catch (error) {
+      console.error('Error generating furigana:', error);
+    } finally {
+      setIsAutoFuriganaLoading(false);
+    }
+  };
+
   // Colors for highlighting
   const highlightColors = [
     { name: 'Sakura Pink', value: '#FFEBEE' },
@@ -293,6 +321,25 @@ const MarkdownEditor = ({ value, onChange }) => {
           <Tooltip title={JP_TEXT.ADD_FURIGANA}>
             <Button onClick={handleFurigana}>
               文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
+            </Button>
+          </Tooltip>
+          
+          <Tooltip title={JP_TEXT.AUTO_FURIGANA}>
+            <Button 
+              onClick={handleAutoFurigana}
+              disabled={isAutoFuriganaLoading}
+              sx={{
+                position: 'relative',
+              }}
+            >
+              {isAutoFuriganaLoading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                <>
+                  <AutoAwesomeIcon />
+                  文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
+                </>
+              )}
             </Button>
           </Tooltip>
           

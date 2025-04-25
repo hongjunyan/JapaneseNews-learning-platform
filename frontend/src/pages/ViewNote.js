@@ -11,6 +11,22 @@ import EditIcon from '@mui/icons-material/Edit';
 import { getNewsById } from '../api/newsApi';
 import MarkdownPreview from '../components/MarkdownPreview';
 
+// Helper function to extract YouTube ID from URL
+const getYoutubeEmbedUrl = (url) => {
+  if (!url) return null;
+  
+  // Match YouTube URL patterns
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  
+  if (match && match[2].length === 11) {
+    // Return embed URL format
+    return `https://www.youtube.com/embed/${match[2]}`;
+  }
+  
+  return null;
+};
+
 const ViewNote = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,6 +34,7 @@ const ViewNote = () => {
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [youtubeEmbedUrl, setYoutubeEmbedUrl] = useState(null);
 
   // Fetch news data on component mount
   useEffect(() => {
@@ -25,6 +42,7 @@ const ViewNote = () => {
       try {
         const data = await getNewsById(id);
         setNews(data);
+        setYoutubeEmbedUrl(getYoutubeEmbedUrl(data.youtube_url));
         setError(null);
       } catch (error) {
         setError('Failed to fetch news data. Please try again later.');
@@ -76,6 +94,45 @@ const ViewNote = () => {
           </Button>
         </Box>
       </Box>
+      
+      {youtubeEmbedUrl && (
+        <Paper
+          elevation={2}
+          sx={{
+            p: 2,
+            borderRadius: 2,
+            backgroundColor: '#fff',
+            mb: 3,
+            width: '100%'
+          }}
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              paddingBottom: '56.25%', // 16:9 aspect ratio
+              height: 0,
+              overflow: 'hidden',
+              maxWidth: '100%',
+              width: '100%'
+            }}
+          >
+            <iframe
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none'
+              }}
+              src={youtubeEmbedUrl}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </Box>
+        </Paper>
+      )}
       
       <Paper 
         elevation={2}

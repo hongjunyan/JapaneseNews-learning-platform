@@ -19,6 +19,7 @@ const EditNote = () => {
   
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -30,6 +31,7 @@ const EditNote = () => {
         const data = await getNewsById(id);
         setTitle(data.title);
         setContent(data.content);
+        setYoutubeUrl(data.youtube_url || '');
         setError(null);
       } catch (error) {
         setError('Failed to fetch news data. Please try again later.');
@@ -53,7 +55,7 @@ const EditNote = () => {
     
     try {
       setSaving(true);
-      await updateNews(id, { title, content });
+      await updateNews(id, { title, content, youtube_url: youtubeUrl });
       navigate('/');
     } catch (error) {
       setError('Failed to update note. Please try again.');
@@ -89,6 +91,18 @@ const EditNote = () => {
           name="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+        
+        <TextField
+          margin="normal"
+          fullWidth
+          id="youtubeUrl"
+          label="YouTube URL"
+          name="youtubeUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+          value={youtubeUrl}
+          onChange={(e) => setYoutubeUrl(e.target.value)}
           sx={{ mb: 3 }}
         />
         

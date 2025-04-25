@@ -6,6 +6,9 @@ from sqlalchemy.orm import sessionmaker, Session
 import os
 from datetime import datetime
 import json
+import fugashi
+import re
+from pydantic import BaseModel
 
 # Create a database directory if it doesn't exist
 if not os.path.exists('data'):
@@ -38,6 +41,7 @@ class News(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     content = Column(Text)
+    youtube_url = Column(String, nullable=True)
     updated_at = Column(SQLiteDateTime, default=datetime.now, onupdate=datetime.now)
 
 # Create the tables
@@ -99,8 +103,8 @@ def get_news(news_id: int, db: Session = Depends(get_db)):
 
 # Create a new news entry
 @app.post("/news")
-def create_news(title: str = Form(...), content: str = Form(...), db: Session = Depends(get_db)):
-    new_news = News(title=title, content=content, updated_at=datetime.now())
+def create_news(title: str = Form(...), content: str = Form(...), youtube_url: str = Form(None), db: Session = Depends(get_db)):
+    new_news = News(title=title, content=content, youtube_url=youtube_url, updated_at=datetime.now())
     db.add(new_news)
     db.commit()
     db.refresh(new_news)
@@ -108,13 +112,14 @@ def create_news(title: str = Form(...), content: str = Form(...), db: Session = 
 
 # Update an existing news entry
 @app.put("/news/{news_id}")
-def update_news(news_id: int, title: str = Form(...), content: str = Form(...), db: Session = Depends(get_db)):
+def update_news(news_id: int, title: str = Form(...), content: str = Form(...), youtube_url: str = Form(None), db: Session = Depends(get_db)):
     news = db.query(News).filter(News.id == news_id).first()
     if news is None:
         raise HTTPException(status_code=404, detail="News not found")
     
     news.title = title
     news.content = content
+    news.youtube_url = youtube_url
     news.updated_at = datetime.now()
     db.commit()
     db.refresh(news)
@@ -129,4 +134,56 @@ def delete_news(news_id: int, db: Session = Depends(get_db)):
     
     db.delete(news)
     db.commit()
-    return {"message": "News deleted successfully"} 
+    return {"message": "News deleted successfully"}
+
+# Function to convert katakana to hiragana
+def katakana_to_hiragana(text):
+    result = ""
+    for char in text:
+        # Check if the character is katakana
+        if 0x30A0 <= ord(char) <= 0x30FF:
+            # Convert to hiragana by shifting the Unicode code point
+            result += chr(ord(char) - 0x60)
+        else:
+            # Keep non-katakana characters as-is
+            result += char
+    return result
+
+# Add this Pydantic model for the furigana request
+class FuriganaRequest(BaseModel):
+    text: str
+
+# Initialize the Japanese text analyzer
+tagger = fugashi.Tagger()
+
+# Add the furigana generation endpoint
+@app.post("/furigana")
+def generate_furigana(request: FuriganaRequest):
+    text = request.text
+    
+    # Process the text with fugashi
+    words = tagger(text)
+    result = ""
+    
+    for word in words:
+        # Skip punctuation and some parts of speech
+        if word.surface in "「」、。？！…：　 ":
+            result += word.surface
+            continue
+            
+        # Get the reading if available
+        if hasattr(word, 'feature') and word.feature.kana:
+            # Check if the word contains kanji
+            if any(0x4E00 <= ord(c) <= 0x9FFF for c in word.surface):
+                # Convert katakana reading to hiragana for furigana
+                hiragana_reading = katakana_to_hiragana(word.feature.kana)
+                # Add furigana in the format [漢字]{ふりがな}
+                result += f"[{word.surface}]{{{hiragana_reading}}}"
+            else:
+                # Just add the word without furigana
+                result += word.surface
+        else:
+            # Fallback: just add the word without furigana
+            result += word.surface
+    
+    return {"text": result} 

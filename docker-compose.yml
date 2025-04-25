@@ -8,8 +8,6 @@ services:
     volumes:
       - ./backend:/app
       - ./backend/data:/app/data
-    ports:
-      - "8000:8000"
     environment:
       - TZ=Asia/Taipei
     restart: unless-stopped
@@ -21,8 +19,6 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    ports:
-      - "3000:3000"
     environment:
       - TZ=Asia/Taipei
     depends_on:
