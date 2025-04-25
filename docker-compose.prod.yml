@@ -13,6 +13,7 @@ services:
     image: hongjunyan/japanese-news-frontend:2.0.0
     environment:
       - TZ=Asia/Taipei
+      - REACT_APP_API_URL=${API_URL:-http://localhost/api}
     depends_on:
       - backend
     restart: unless-stopped
