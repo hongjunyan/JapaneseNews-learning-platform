@@ -219,6 +219,7 @@ const MarkdownEditor = ({ value, onChange }) => {
   const handleNewsTemplate = () => {
     const newsTemplate = 
 `## 「ニュース文章を挿入」
+
 ### 📘 翻訳：
 (日本語から自分の言語への翻訳)
 
@@ -226,6 +227,7 @@ const MarkdownEditor = ({ value, onChange }) => {
 - 重要な単語・表現
 - 文法ポイント
 - 理解しにくかった部分
+---
 `;
     
     // Insert at cursor position using replaceSelection for undo support
@@ -707,7 +709,8 @@ const MarkdownEditor = ({ value, onChange }) => {
         <TextField
           fullWidth
           multiline
-          rows={20}
+          minRows={8}
+          maxRows={1000}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
