@@ -1,0 +1,12 @@
+// This file should be replaced with an actual PNG image file for the subtle background pattern.
+// We've created a japan-pattern.svg file in the public directory that can be used as a pattern reference.
+// 
+// For an optimal experience:
+// 1. Use the japan-pattern.svg as a base and export it as a PNG file
+// 2. Or create your own subtle Japanese pattern (推薦/recommended)
+// 3. Save it as subtle-pattern.png in this directory
+//
+// The pattern should feature traditional Japanese motifs like Asanoha (麻の葉), Seigaiha (青海波), or Shippo (七宝) patterns
+// with the colors that match our theme (#E83929, #2D4B8D, #7B8D42).
+// Recommended size: 400x400px with low opacity patterns (5-10% opacity).
+// You can find free subtle patterns on sites like subtlepatterns.com or transparenttextures.com 

@@ -9,9 +9,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #FFFEF7;
+  background-color: #F5F2EB;
   letter-spacing: 0.01em;
   line-height: 1.6;
+  color: #2A2522;
 }
 
 code {
@@ -26,8 +27,9 @@ code {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  color: #2A4B7C;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  color: #E83929;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.03);
+  letter-spacing: 0.03em;
 }
 
 .jp-page-title:after {
@@ -36,23 +38,24 @@ code {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  width: 80px;
   height: 3px;
-  background: linear-gradient(to right, #D22630, #68B0AB);
+  background: linear-gradient(to right, #E83929, #D0104C, #2D4B8D);
   border-radius: 3px;
 }
 
 .jp-card {
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #EEEEEE !important;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .jp-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .jp-card::before {
@@ -61,8 +64,8 @@ code {
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
-  background: linear-gradient(to right, #D22630, #68B0AB);
+  height: 4px;
+  background: linear-gradient(to right, #E83929, #D0104C, #2D4B8D);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -73,21 +76,23 @@ code {
 
 .jp-divider {
   height: 1px;
-  background: linear-gradient(to right, rgba(210, 38, 48, 0.2), rgba(104, 176, 171, 0.2));
+  background: linear-gradient(to right, rgba(232, 57, 41, 0.2), rgba(208, 16, 76, 0.2), rgba(45, 75, 141, 0.2));
   margin: 1.8rem 0;
+  border: none;
 }
 
 .furigana {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   font-size: 0.65em;
   position: relative;
-  top: -0.5em;
-  color: #555555;
+  top: -0.05em;
+  color: #5C5552;
 }
 
 .kanji {
   font-weight: 500;
-  color: #2A4B7C;
+  /* Removing the hardcoded color so text keeps its original color */
+  /* color: #2D4B8D; */
 }
 
 /* Japanese corner decoration */
@@ -108,27 +113,70 @@ code {
   right: -20px;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #D22630, #68B0AB);
+  background: linear-gradient(135deg, #5FB3BF, #2D4B8D);
   transform: rotate(45deg);
-  opacity: 0.85;
+  opacity: 0.6;
+}
+
+/* Gradient Cards */
+.gradient-card {
+  position: relative;
+  border-radius: 12px;
+  padding: 24px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.gradient-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(140deg, rgba(232, 57, 41, 0.05) 0%, rgba(208, 16, 76, 0.05) 50%, rgba(45, 75, 141, 0.05) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gradient-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.gradient-card.highlight {
+  background: linear-gradient(140deg, rgba(232, 57, 41, 0.08) 0%, rgba(208, 16, 76, 0.08) 50%, rgba(45, 75, 141, 0.08) 100%);
 }
 
 /* Styles for markdown preview */
 .markdown-preview {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 1.8rem;
-  border-radius: 0;
-  border: 1px solid #EEEEEE;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
   font-family: 'Noto Sans JP', sans-serif;
   line-height: 1.7;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.markdown-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, rgba(95, 179, 191, 0.03) 0%, rgba(139, 129, 195, 0.03) 50%, rgba(45, 75, 141, 0.03) 100%);
+  pointer-events: none;
 }
 
 .markdown-preview h1,
 .markdown-preview h2,
 .markdown-preview h3 {
   font-family: 'Shippori Mincho', serif;
-  color: #2A4B7C;
+  color: #2D4B8D;
   position: relative;
   padding-bottom: 0.5rem;
 }
@@ -139,36 +187,180 @@ code {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 40px;
+  width: 50px;
   height: 2px;
-  background: linear-gradient(to right, #D22630, #68B0AB);
+  background: linear-gradient(to right, #5FB3BF, #2D4B8D);
 }
 
 .markdown-preview table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
-  border: 1px solid #EEEEEE;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .markdown-preview th,
 .markdown-preview td {
-  border: 1px solid #EEEEEE;
-  padding: 10px;
+  border: 1px solid rgba(45, 75, 141, 0.15);
+  padding: 12px 16px;
   text-align: left;
 }
 
 .markdown-preview th {
-  background-color: rgba(104, 176, 171, 0.1);
+  background-color: rgba(45, 75, 141, 0.08);
   font-weight: 500;
+  color: #2D4B8D;
 }
 
 .markdown-preview tr:nth-child(even) {
-  background-color: rgba(249, 219, 198, 0.1);
+  background-color: rgba(139, 129, 195, 0.05);
 }
 
 /* Make sure inline html is displayed correctly */
 .markdown-preview span[style*="background-color"] {
   padding: 2px 4px;
-  border-radius: 2px;
+  border-radius: 4px;
+}
+
+/* Glass effect components */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.glass-button {
+  background: rgba(232, 57, 41, 0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-button:hover {
+  background: rgba(232, 57, 41, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom gradient effects */
+.gradient-border {
+  position: relative;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(to right, #E83929, #D0104C, #2D4B8D);
+}
+
+.gradient-border-content {
+  background: white;
+  border-radius: 11px;
+  padding: 20px;
+}
+
+/* Japanese pattern background */
+.japan-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.japan-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23E83929' fill-opacity='0.05'%3E%3Cpath d='M0 0h10v10H0zm10 10h10v10H10z'/%3E%3C/g%3E%3C/svg%3E");
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Red seal stamp effect */
+.hanko {
+  position: relative;
+  display: inline-block;
+}
+
+.hanko::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: -20px;
+  top: -10px;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='18' fill='%23E83929' fill-opacity='0.15'/%3E%3Cpath d='M14,20 L26,20 M20,14 L20,26' stroke='%23E83929' stroke-width='2' stroke-opacity='0.3'/%3E%3C/svg%3E");
+  z-index: 2;
+  transform: rotate(15deg);
+}
+
+/* Subtle shine animation effect */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: shine 6s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  from {
+    transform: translateX(-100%) rotate(30deg);
+  }
+  to {
+    transform: translateX(100%) rotate(30deg);
+  }
+}
+
+/* Japanese calligraphy brush effect */
+.brush-text {
+  font-family: 'Shippori Mincho', serif;
+  position: relative;
+}
+
+.brush-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232, 57, 41, 0.4);
+  transform: translate(2px, 2px);
+  z-index: -1;
+}
+
+/* Japanese wave pattern */
+.japanese-wave {
+  position: relative;
+}
+
+.japanese-wave::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='8' viewBox='0 0 100 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 C10,0 10,8 20,8 C30,8 30,0 40,0 C50,0 50,8 60,8 C70,8 70,0 80,0 C90,0 90,8 100,8 L100,8 L0,8 Z' fill='%232D4B8D' fill-opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 100px 8px;
+  background-repeat: repeat-x;
 } 

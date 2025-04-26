@@ -56,7 +56,7 @@ const EditNote = () => {
     try {
       setSaving(true);
       await updateNews(id, { title, content, youtube_url: youtubeUrl });
-      navigate('/');
+      navigate(`/view/${id}`);
     } catch (error) {
       setError('Failed to update note. Please try again.');
       console.error(error);

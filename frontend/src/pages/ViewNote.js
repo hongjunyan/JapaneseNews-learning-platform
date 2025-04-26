@@ -6,10 +6,11 @@ import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
+import Fab from '@mui/material/Fab';
 import { getNewsById } from '../api/newsApi';
 import MarkdownPreview from '../components/MarkdownPreview';
+import { useTheme } from '@mui/material/styles';
 
 // Helper function to extract YouTube ID from URL
 const getYoutubeEmbedUrl = (url) => {
@@ -30,6 +31,7 @@ const getYoutubeEmbedUrl = (url) => {
 const ViewNote = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const theme = useTheme();
   
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,7 +61,7 @@ const ViewNote = () => {
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-        <CircularProgress />
+        <CircularProgress sx={{ color: theme.palette.secondary.main }} />
       </Box>
     );
   }
@@ -71,28 +73,11 @@ const ViewNote = () => {
 
   // Render news content
   return (
-    <div>
+    <Box className="japan-pattern" sx={{ pb: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" color="secondary">
           {news?.title}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button
-            variant="outlined"
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate('/')}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<EditIcon />}
-            onClick={() => navigate(`/edit/${id}`)}
-          >
-            Edit
-          </Button>
-        </Box>
       </Box>
       
       {youtubeEmbedUrl && (
@@ -101,11 +86,12 @@ const ViewNote = () => {
           sx={{
             p: 2,
             borderRadius: 2,
-            backgroundColor: '#fff',
+            backgroundColor: '#FAFAFA',
             mb: 3,
             width: '100%',
             maxWidth: '800px',
-            mx: 'auto'
+            mx: 'auto',
+            border: '1px solid rgba(45, 75, 141, 0.1)',
           }}
         >
           <Box
@@ -141,13 +127,30 @@ const ViewNote = () => {
         sx={{
           p: 4,
           borderRadius: 2,
-          backgroundColor: '#fff',
-          minHeight: '400px'
+          backgroundColor: '#FAFAFA',
+          minHeight: '400px',
+          border: '1px solid rgba(45, 75, 141, 0.1)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
         }}
       >
         <MarkdownPreview content={news?.content} />
       </Paper>
-    </div>
+
+      {/* Floating Edit Button */}
+      <Fab
+        color="secondary"
+        aria-label="edit"
+        onClick={() => navigate(`/edit/${id}`)}
+        sx={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        }}
+      >
+        <EditIcon />
+      </Fab>
+    </Box>
   );
 };
 

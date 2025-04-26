@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -17,6 +17,10 @@ import Paper from '@mui/material/Paper';
 import TranslateIcon from '@mui/icons-material/Translate';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CircularProgress from '@mui/material/CircularProgress';
+import Zoom from '@mui/material/Zoom';
+import Slide from '@mui/material/Slide';
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
 import { generateFurigana } from '../api/newsApi';
 
 // Japanese text constants
@@ -44,6 +48,41 @@ const MarkdownEditor = ({ value, onChange }) => {
   const [textColorMenuAnchorEl, setTextColorMenuAnchorEl] = React.useState(null);
   const textColorMenuOpen = Boolean(textColorMenuAnchorEl);
   const [isAutoFuriganaLoading, setIsAutoFuriganaLoading] = useState(false);
+  
+  // New state for floating toolbar
+  const [showFloatingToolbar, setShowFloatingToolbar] = useState(false);
+  const [floatingToolbarOpen, setFloatingToolbarOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Add scroll event listener to show/hide floating toolbar
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show floating toolbar when scrolled past the static toolbar
+      if (editorRef.current) {
+        const editorRect = editorRef.current.getBoundingClientRect();
+        if (editorRect.top < 0) {
+          setShowFloatingToolbar(true);
+        } else {
+          setShowFloatingToolbar(false);
+          setFloatingToolbarOpen(false);
+        }
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
+  // Toggle floating toolbar
+  const toggleFloatingToolbar = () => {
+    setFloatingToolbarOpen(!floatingToolbarOpen);
+  };
 
   const handleColorMenuClick = (event) => {
     setColorMenuAnchorEl(event.currentTarget);
@@ -311,6 +350,92 @@ const MarkdownEditor = ({ value, onChange }) => {
     { name: 'Deep Indigo', value: '#303F9F' }
   ];
 
+  // Render toolbar buttons
+  const renderToolbarButtons = () => (
+    <ButtonGroup 
+      variant="outlined" 
+      sx={{ 
+        '& .MuiButton-root': {
+          borderColor: '#E0E0E0',
+          color: '#555555',
+          backgroundColor: '#FFFFFF',
+          transition: 'all 0.2s ease',
+          '&:hover': {
+            borderColor: '#D22630',
+            backgroundColor: 'rgba(210, 38, 48, 0.04)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 3px 5px rgba(0, 0, 0, 0.08)'
+          }
+        }
+      }}
+    >
+      <Tooltip title={JP_TEXT.BOLD}>
+        <Button onClick={handleBold}>
+          <FormatBoldIcon />
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.ADD_FURIGANA}>
+        <Button onClick={handleFurigana}>
+          文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.AUTO_FURIGANA}>
+        <Button 
+          onClick={handleAutoFurigana}
+          disabled={isAutoFuriganaLoading}
+          sx={{
+            position: 'relative',
+          }}
+        >
+          {isAutoFuriganaLoading ? (
+            <CircularProgress size={20} color="inherit" />
+          ) : (
+            <>
+              <AutoAwesomeIcon />
+              文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
+            </>
+          )}
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.HIGHLIGHT}>
+        <Button 
+          onClick={handleColorMenuClick}
+          aria-haspopup="true"
+          aria-expanded={colorMenuOpen ? 'true' : undefined}
+        >
+          <FormatColorFillIcon />
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.TEXT_COLOR}>
+        <Button 
+          onClick={handleTextColorMenuClick}
+          aria-haspopup="true"
+          aria-expanded={textColorMenuOpen ? 'true' : undefined}
+        >
+          <FormatColorTextIcon />
+          <ExpandMoreIcon fontSize="small" />
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.ADD_TABLE}>
+        <Button onClick={handleTable}>
+          <BorderAllIcon />
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.NEWS_TEMPLATE}>
+        <Button onClick={handleNewsTemplate}>
+          <NoteAltIcon />
+        </Button>
+      </Tooltip>
+    </ButtonGroup>
+  );
+
   return (
     <Box>
       <Typography 
@@ -354,6 +479,7 @@ const MarkdownEditor = ({ value, onChange }) => {
         {JP_TEXT.FURIGANA_FORMAT}
       </Typography>
       
+      {/* Static toolbar */}
       <Paper 
         elevation={0}
         sx={{ 
@@ -364,195 +490,181 @@ const MarkdownEditor = ({ value, onChange }) => {
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
         }}
       >
-        <ButtonGroup 
-          variant="outlined" 
-          sx={{ 
-            '& .MuiButton-root': {
-              borderColor: '#E0E0E0',
-              color: '#555555',
-              backgroundColor: '#FFFFFF',
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                borderColor: '#D22630',
-                backgroundColor: 'rgba(210, 38, 48, 0.04)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 3px 5px rgba(0, 0, 0, 0.08)'
-              }
-            }
-          }}
-        >
-          <Tooltip title={JP_TEXT.BOLD}>
-            <Button onClick={handleBold}>
-              <FormatBoldIcon />
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.ADD_FURIGANA}>
-            <Button onClick={handleFurigana}>
-              文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.AUTO_FURIGANA}>
-            <Button 
-              onClick={handleAutoFurigana}
-              disabled={isAutoFuriganaLoading}
-              sx={{
-                position: 'relative',
-              }}
-            >
-              {isAutoFuriganaLoading ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                <>
-                  <AutoAwesomeIcon />
-                  文<Typography component="span" sx={{ fontSize: '0.6rem', verticalAlign: 'top' }}>{JP_TEXT.FURIGANA_SHORT}</Typography>
-                </>
-              )}
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.HIGHLIGHT}>
-            <Button 
-              onClick={handleColorMenuClick}
-              aria-haspopup="true"
-              aria-expanded={colorMenuOpen ? 'true' : undefined}
-            >
-              <FormatColorFillIcon />
-              <ExpandMoreIcon fontSize="small" />
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.TEXT_COLOR}>
-            <Button 
-              onClick={handleTextColorMenuClick}
-              aria-haspopup="true"
-              aria-expanded={textColorMenuOpen ? 'true' : undefined}
-            >
-              <FormatColorTextIcon />
-              <ExpandMoreIcon fontSize="small" />
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.ADD_TABLE}>
-            <Button onClick={handleTable}>
-              <BorderAllIcon />
-            </Button>
-          </Tooltip>
-          
-          <Tooltip title={JP_TEXT.NEWS_TEMPLATE}>
-            <Button onClick={handleNewsTemplate}>
-              <NoteAltIcon />
-            </Button>
-          </Tooltip>
-        </ButtonGroup>
-        
-        <Menu
-          anchorEl={colorMenuAnchorEl}
-          open={colorMenuOpen}
-          onClose={handleColorMenuClose}
-          PaperProps={{
-            sx: {
-              border: '1px solid #EEEEEE',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-              maxHeight: '400px',
-              width: '180px',
-              '& .MuiList-root': {
-                padding: '8px',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '4px'
-              }
-            }
-          }}
-        >
-          {highlightColors.map((color) => (
-            <MenuItem 
-              key={color.name} 
-              onClick={() => handleHighlight(color.value)}
-              sx={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '8px 4px',
-                borderRadius: '4px',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  backgroundColor: 'rgba(210, 38, 48, 0.04)',
-                  transform: 'scale(1.05)'
-                }
-              }}
-            >
-              <Box 
-                sx={{ 
-                  width: 20, 
-                  height: 20, 
-                  backgroundColor: color.value, 
-                  marginBottom: 0.5,
-                  border: '1px solid #EEEEEE',
-                  borderRadius: '4px',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
-                }}
-              />
-              <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>{color.name}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
-        
-        <Menu
-          anchorEl={textColorMenuAnchorEl}
-          open={textColorMenuOpen}
-          onClose={handleTextColorMenuClose}
-          PaperProps={{
-            sx: {
-              border: '1px solid #EEEEEE',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-              maxHeight: '400px',
-              width: '180px',
-              '& .MuiList-root': {
-                padding: '8px',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '4px'
-              }
-            }
-          }}
-        >
-          {textColors.map((color) => (
-            <MenuItem 
-              key={color.name} 
-              onClick={() => handleTextColor(color.value)}
-              sx={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '8px 4px',
-                borderRadius: '4px',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  backgroundColor: 'rgba(210, 38, 48, 0.04)',
-                  transform: 'scale(1.05)'
-                }
-              }}
-            >
-              <Box 
-                sx={{ 
-                  width: 20, 
-                  height: 20, 
-                  backgroundColor: color.value, 
-                  marginBottom: 0.5,
-                  border: '1px solid #EEEEEE',
-                  borderRadius: '4px',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
-                }}
-              />
-              <Typography variant="caption" sx={{ fontSize: '0.7rem', color: color.value, fontWeight: 'bold' }}>{color.name}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
+        {renderToolbarButtons()}
       </Paper>
+      
+      {/* Floating toolbar */}
+      <Zoom in={showFloatingToolbar}>
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 1000,
+          }}
+        >
+          <Fab
+            color="primary"
+            size="medium"
+            onClick={toggleFloatingToolbar}
+            sx={{
+              backgroundColor: '#2A4B7C',
+              '&:hover': {
+                backgroundColor: '#1A3B6C',
+              },
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <EditIcon />
+          </Fab>
+          
+          <Slide 
+            direction="up" 
+            in={floatingToolbarOpen} 
+            mountOnEnter 
+            unmountOnExit
+          >
+            <Paper
+              elevation={3}
+              sx={{
+                position: 'absolute',
+                bottom: '60px',
+                right: '0',
+                p: 1,
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                borderRadius: '4px',
+                boxShadow: '0 3px 14px rgba(0, 0, 0, 0.12)',
+                border: '1px solid #EEEEEE',
+                maxWidth: '100vw',
+                overflow: 'auto',
+                '&:before': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: '-8px',
+                  right: '14px',
+                  width: '16px',
+                  height: '16px',
+                  backgroundColor: 'white',
+                  boxShadow: '4px 4px 5px rgba(0, 0, 0, 0.05)',
+                  transform: 'rotate(45deg)',
+                  borderRight: '1px solid #EEEEEE',
+                  borderBottom: '1px solid #EEEEEE',
+                  zIndex: 0,
+                }
+              }}
+            >
+              {renderToolbarButtons()}
+            </Paper>
+          </Slide>
+        </Box>
+      </Zoom>
+      
+      {/* Menus */}
+      <Menu
+         anchorEl={colorMenuAnchorEl}
+         open={colorMenuOpen}
+         onClose={handleColorMenuClose}
+         PaperProps={{
+           sx: {
+             border: '1px solid #EEEEEE',
+             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+             maxHeight: '400px',
+             width: '180px',
+             '& .MuiList-root': {
+               padding: '8px',
+               display: 'grid',
+               gridTemplateColumns: 'repeat(2, 1fr)',
+               gap: '4px'
+             }
+           }
+         }}
+       >
+         {highlightColors.map((color) => (
+           <MenuItem 
+             key={color.name} 
+             onClick={() => handleHighlight(color.value)}
+             sx={{ 
+               display: 'flex', 
+               flexDirection: 'column',
+               alignItems: 'center',
+               justifyContent: 'center',
+               padding: '8px 4px',
+               borderRadius: '4px',
+               transition: 'all 0.2s',
+               '&:hover': {
+                 backgroundColor: 'rgba(210, 38, 48, 0.04)',
+                 transform: 'scale(1.05)'
+               }
+             }}
+           >
+             <Box 
+               sx={{ 
+                 width: 20, 
+                 height: 20, 
+                 backgroundColor: color.value, 
+                 marginBottom: 0.5,
+                 border: '1px solid #EEEEEE',
+                 borderRadius: '4px',
+                 boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
+               }}
+             />
+             <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>{color.name}</Typography>
+           </MenuItem>
+         ))}
+       </Menu>
+       
+       <Menu
+         anchorEl={textColorMenuAnchorEl}
+         open={textColorMenuOpen}
+         onClose={handleTextColorMenuClose}
+         PaperProps={{
+           sx: {
+             border: '1px solid #EEEEEE',
+             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+             maxHeight: '400px',
+             width: '180px',
+             '& .MuiList-root': {
+               padding: '8px',
+               display: 'grid',
+               gridTemplateColumns: 'repeat(2, 1fr)',
+               gap: '4px'
+             }
+           }
+         }}
+       >
+         {textColors.map((color) => (
+           <MenuItem 
+             key={color.name} 
+             onClick={() => handleTextColor(color.value)}
+             sx={{ 
+               display: 'flex', 
+               flexDirection: 'column',
+               alignItems: 'center',
+               justifyContent: 'center',
+               padding: '8px 4px',
+               borderRadius: '4px',
+               transition: 'all 0.2s',
+               '&:hover': {
+                 backgroundColor: 'rgba(210, 38, 48, 0.04)',
+                 transform: 'scale(1.05)'
+               }
+             }}
+           >
+             <Box 
+               sx={{ 
+                 width: 20, 
+                 height: 20, 
+                 backgroundColor: color.value, 
+                 marginBottom: 0.5,
+                 border: '1px solid #EEEEEE',
+                 borderRadius: '4px',
+                 boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
+               }}
+             />
+             <Typography variant="caption" sx={{ fontSize: '0.7rem', color: color.value, fontWeight: 'bold' }}>{color.name}</Typography>
+           </MenuItem>
+         ))}
+       </Menu>
       
       <Box 
         sx={{ 
