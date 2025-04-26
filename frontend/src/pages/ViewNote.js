@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -8,9 +8,11 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
+import DownloadIcon from '@mui/icons-material/Download';
 import { getNewsById } from '../api/newsApi';
 import MarkdownPreview from '../components/MarkdownPreview';
 import { useTheme } from '@mui/material/styles';
+import html2pdf from 'html2pdf.js';
 
 // Helper function to extract YouTube ID from URL
 const getYoutubeEmbedUrl = (url) => {
@@ -32,6 +34,7 @@ const ViewNote = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
+  const contentRef = useRef(null);
   
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -57,6 +60,56 @@ const ViewNote = () => {
     fetchNewsData();
   }, [id]);
 
+  const handleDownloadPdf = () => {
+    if (!contentRef.current) return;
+    
+    // Create a clone of the content for PDF generation to avoid modifying the displayed content
+    const clonedElement = contentRef.current.cloneNode(true);
+    
+    // Add title to PDF
+    const titleElement = document.createElement('h1');
+    titleElement.innerText = news?.title || 'Note';
+    titleElement.style.fontFamily = '"Shippori Mincho", serif';
+    titleElement.style.color = '#2D4B8D';
+    titleElement.style.marginBottom = '20px';
+    titleElement.style.paddingBottom = '10px';
+    titleElement.style.borderBottom = '1px solid #EEEEEE';
+    
+    // Insert title at the beginning of content
+    clonedElement.insertBefore(titleElement, clonedElement.firstChild);
+    
+    // Remove preview title if exists
+    const previewTitles = clonedElement.querySelectorAll('h6');
+    previewTitles.forEach(title => {
+      if (title.textContent === 'プレビュー') {
+        title.remove();
+      }
+    });
+    
+    // Configure pdf options
+    const options = {
+      margin: [15, 15, 15, 15],
+      filename: `${news?.title || 'note'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true,
+        letterRendering: true,
+        logging: false
+      },
+      jsPDF: { 
+        unit: 'mm', 
+        format: 'a4', 
+        orientation: 'portrait',
+        compress: true
+      },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    
+    // Generate PDF
+    html2pdf().from(clonedElement).set(options).save();
+  };
+
   // Render loading spinner
   if (loading) {
     return (
@@ -78,6 +131,20 @@ const ViewNote = () => {
         <Typography variant="h4" component="h1" color="secondary">
           {news?.title}
         </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<DownloadIcon />}
+          onClick={handleDownloadPdf}
+          sx={{
+            backgroundColor: theme.palette.custom?.asagi || '#5FB3BF',
+            '&:hover': {
+              backgroundColor: theme.palette.custom?.asagi ? theme.palette.custom.asagi + '99' : '#4CA3AF',
+            },
+          }}
+        >
+          Download PDF
+        </Button>
       </Box>
       
       {youtubeEmbedUrl && (
@@ -133,7 +200,9 @@ const ViewNote = () => {
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
         }}
       >
-        <MarkdownPreview content={news?.content} />
+        <div ref={contentRef}>
+          <MarkdownPreview content={news?.content} />
+        </div>
       </Paper>
 
       {/* Floating Edit Button */}

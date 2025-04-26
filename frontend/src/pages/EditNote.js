@@ -12,6 +12,9 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { getNewsById, updateNews } from '../api/newsApi';
 import MarkdownEditor from '../components/MarkdownEditor';
 import MarkdownPreview from '../components/MarkdownPreview';
+import Zoom from '@mui/material/Zoom';
+import Fab from '@mui/material/Fab';
+import Tooltip from '@mui/material/Tooltip';
 
 const EditNote = () => {
   const { id } = useParams();
@@ -74,7 +77,7 @@ const EditNote = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: '95%', mx: 'auto' }}>
+    <Box sx={{ maxWidth: '95%', mx: 'auto', position: 'relative', pb: 6 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Edit Note
       </Typography>
@@ -139,6 +142,31 @@ const EditNote = () => {
           </Button>
         </Box>
       </Box>
+      
+      {/* Floating save button */}
+      <Zoom in={true}>
+        <Tooltip title="Save Changes">
+          <Fab
+            color="primary"
+            aria-label="save"
+            onClick={handleSubmit}
+            disabled={saving}
+            sx={{
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px',
+              zIndex: 999,
+              backgroundColor: '#2A4B7C',
+              '&:hover': {
+                backgroundColor: '#1A3B6C',
+              },
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            {saving ? <CircularProgress size={24} color="inherit" /> : <SaveIcon />}
+          </Fab>
+        </Tooltip>
+      </Zoom>
     </Box>
   );
 };

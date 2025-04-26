@@ -59,14 +59,21 @@ const MarkdownEditor = ({ value, onChange }) => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Show floating toolbar when scrolled past the static toolbar
+      // Show floating toolbar when the static toolbar is not visible
       if (editorRef.current) {
         const editorRect = editorRef.current.getBoundingClientRect();
-        if (editorRect.top < 0) {
-          setShowFloatingToolbar(true);
-        } else {
-          setShowFloatingToolbar(false);
-          setFloatingToolbarOpen(false);
+        const toolbarElement = document.querySelector('[data-testid="static-toolbar"]');
+        
+        if (toolbarElement) {
+          const toolbarRect = toolbarElement.getBoundingClientRect();
+          if (toolbarRect.bottom < 0) {
+            setShowFloatingToolbar(true);
+            // Auto-open the floating toolbar when it first appears
+            setFloatingToolbarOpen(true);
+          } else {
+            setShowFloatingToolbar(false);
+            setFloatingToolbarOpen(false);
+          }
         }
       }
       
@@ -482,6 +489,7 @@ const MarkdownEditor = ({ value, onChange }) => {
       {/* Static toolbar */}
       <Paper 
         elevation={0}
+        data-testid="static-toolbar"
         sx={{ 
           p: 2, 
           mb: 2, 
@@ -498,7 +506,7 @@ const MarkdownEditor = ({ value, onChange }) => {
         <Box
           sx={{
             position: 'fixed',
-            bottom: '20px',
+            bottom: '80px',
             right: '20px',
             zIndex: 1000,
           }}

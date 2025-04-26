@@ -363,4 +363,98 @@ code {
   background-image: url("data:image/svg+xml,%3Csvg width='100' height='8' viewBox='0 0 100 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 C10,0 10,8 20,8 C30,8 30,0 40,0 C50,0 50,8 60,8 C70,8 70,0 80,0 C90,0 90,8 100,8 L100,8 L0,8 Z' fill='%232D4B8D' fill-opacity='0.1'/%3E%3C/svg%3E");
   background-size: 100px 8px;
   background-repeat: repeat-x;
+}
+
+/* PDF export styles */
+@media print {
+  body {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  
+  .jp-card, .gradient-card, .glass-card, .markdown-preview {
+    box-shadow: none !important;
+    background: none !important;
+    padding: 0 !important;
+  }
+  
+  .markdown-preview {
+    font-family: 'Noto Sans JP', sans-serif !important;
+    font-size: 12pt !important;
+  }
+  
+  ruby {
+    display: inline-flex !important;
+    flex-direction: column-reverse !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    margin: 0 0.2em !important;
+  }
+  
+  .kanji {
+    font-weight: 500 !important;
+    font-size: 14pt !important;
+  }
+  
+  .furigana {
+    font-family: 'M PLUS Rounded 1c', sans-serif !important;
+    font-size: 8pt !important;
+    line-height: 1 !important;
+    color: #666 !important;
+  }
+  
+  .jp-corner, .jp-page-title:after, .jp-card::before, 
+  .markdown-preview::before, .markdown-preview h1::after, 
+  .markdown-preview h2::after {
+    display: none !important;
+  }
+  
+  .markdown-preview h1 {
+    font-size: 20pt !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+    margin-bottom: 1em !important;
+    padding-bottom: 0.3em !important;
+    border-bottom: 1px solid #CCC !important;
+  }
+  
+  .markdown-preview h2 {
+    font-size: 16pt !important;
+    font-weight: 600 !important;
+    color: #222 !important;
+    margin-bottom: 0.8em !important;
+    padding-bottom: 0.2em !important;
+    border-bottom: 1px solid #EEE !important;
+  }
+  
+  .markdown-preview h3 {
+    font-size: 14pt !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    margin-bottom: 0.6em !important;
+  }
+  
+  .markdown-preview p {
+    margin-bottom: 0.8em !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+  
+  .markdown-preview table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin-bottom: 1em !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .markdown-preview th, .markdown-preview td {
+    border: 1px solid #CCC !important;
+    padding: 4pt !important;
+    text-align: left !important;
+  }
+
+  .markdown-preview th {
+    background-color: #F5F5F5 !important;
+    font-weight: 600 !important;
+  }
 } 
