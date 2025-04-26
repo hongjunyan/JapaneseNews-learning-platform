@@ -6,6 +6,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import BorderAllIcon from '@mui/icons-material/BorderAll';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
@@ -28,6 +29,7 @@ const JP_TEXT = {
   EDITOR: 'エディタ',
   FURIGANA_FORMAT: 'ふりがなを追加する形式: [漢字]{ふりがな}',
   BOLD: '太字',
+  UNDERLINE: '下線',
   ADD_FURIGANA: 'ふりがな追加',
   FURIGANA_SHORT: 'ふり',
   AUTO_FURIGANA: '自動ふりがな',
@@ -157,6 +159,14 @@ const MarkdownEditor = ({ value, onChange }) => {
     const { text } = getSelection();
     if (text) {
       replaceSelection(`**${text}**`);
+    }
+  };
+
+  // Handle underline formatting
+  const handleUnderline = () => {
+    const { text } = getSelection();
+    if (text) {
+      replaceSelection(`<u>${text}</u>`);
     }
   };
 
@@ -381,6 +391,12 @@ const MarkdownEditor = ({ value, onChange }) => {
       <Tooltip title={JP_TEXT.BOLD}>
         <Button onClick={handleBold}>
           <FormatBoldIcon />
+        </Button>
+      </Tooltip>
+      
+      <Tooltip title={JP_TEXT.UNDERLINE}>
+        <Button onClick={handleUnderline}>
+          <FormatUnderlinedIcon />
         </Button>
       </Tooltip>
       
