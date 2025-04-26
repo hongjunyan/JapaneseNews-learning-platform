@@ -214,6 +214,71 @@ const MarkdownEditor = ({ value, onChange }) => {
     }
   };
 
+  // Handle Tab key press for indentation
+  const handleKeyDown = (e) => {
+    // Check if Tab key is pressed
+    if (e.key === 'Tab') {
+      e.preventDefault(); // Prevent focus from leaving the textarea
+      
+      const textarea = editorRef.current;
+      if (!textarea) return;
+      
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      
+      // Get the content before and after the selection
+      const valueBeforeSelection = textarea.value.substring(0, start);
+      const valueAfterSelection = textarea.value.substring(end);
+      
+      // If there's a selection and it spans multiple lines
+      if (start !== end && textarea.value.substring(start, end).includes('\n')) {
+        // For multi-line selections, indent or unindent each line
+        const selectedText = textarea.value.substring(start, end);
+        const lines = selectedText.split('\n');
+        
+        // Process each line based on whether Shift is pressed
+        const newLines = lines.map(line => 
+          e.shiftKey ? line.replace(/^(\s{2}|\t)/, '') : '  ' + line
+        );
+        
+        const newSelectedText = newLines.join('\n');
+        
+        // Replace the selection with the processed text
+        document.execCommand('insertText', false, newSelectedText);
+        
+        // Update parent component with the new value
+        onChange(textarea.value);
+        
+        // Set the selection range to include all modified lines
+        const newSelectionStart = start;
+        const newSelectionEnd = start + newSelectedText.length;
+        textarea.setSelectionRange(newSelectionStart, newSelectionEnd);
+      } else {
+        // For a single line or no selection, insert or remove indentation at cursor
+        if (e.shiftKey) {
+          // Shift+Tab: remove indentation if it exists
+          const lineStart = valueBeforeSelection.lastIndexOf('\n') + 1;
+          const lineBeforeCursor = valueBeforeSelection.substring(lineStart);
+          
+          // If the line has at least one tab or two spaces at the beginning, remove it
+          if (lineBeforeCursor.startsWith('\t')) {
+            textarea.setSelectionRange(lineStart, lineStart + 1);
+            document.execCommand('delete', false);
+            onChange(textarea.value);
+          } else if (lineBeforeCursor.startsWith('  ')) {
+            textarea.setSelectionRange(lineStart, lineStart + 2);
+            document.execCommand('delete', false);
+            onChange(textarea.value);
+          }
+        } else {
+          // Tab: insert indentation (two spaces)
+          document.execCommand('insertText', false, '  ');
+          onChange(textarea.value);
+        }
+      }
+    }
+  };
+
   // Colors for highlighting
   const highlightColors = [
     { name: 'Sakura Pink', value: '#FFE4E6' },
@@ -525,6 +590,7 @@ const MarkdownEditor = ({ value, onChange }) => {
           rows={20}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           variant="outlined"
           placeholder={JP_TEXT.PLACEHOLDER}
           inputRef={editorRef}
