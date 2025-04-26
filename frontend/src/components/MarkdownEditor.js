@@ -172,30 +172,14 @@ const MarkdownEditor = ({ value, onChange }) => {
   // Handle adding news article structure template
   const handleNewsTemplate = () => {
     const newsTemplate = 
-`# ニュース記事のまとめ
+`## 「ニュース文章を挿入」
+### 📘 翻訳：
+(日本語から自分の言語への翻訳)
 
-> 「記事の一部を引用文として書いておく」
-
-## 文の構造分析
-
-1. 「第一の文を書いておく」
-   - 重要なポイント
-   - 単語の意味: 〇〇〇
-
-2. 「第二の文を書いておく」
-   - 重要なポイント
-   - 語法メモ: 〜〜の使い方
-
-3. 「第三の文を書いておく」
-   - 文法ポイント: 〜〜
-   - 関連語彙: 〇〇〇
-
-## 総合メモ
-
-- 重要単語一覧
-- 理解が難しかった部分
-- 関連知識
-
+### 📌 重点整理：
+- 重要な単語・表現
+- 文法ポイント
+- 理解しにくかった部分
 `;
     
     // Insert at cursor position using replaceSelection for undo support

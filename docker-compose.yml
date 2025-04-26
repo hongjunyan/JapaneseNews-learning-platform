@@ -6,7 +6,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
       - ./backend/data:/app/data
     environment:
       - TZ=Asia/Taipei
