@@ -201,7 +201,7 @@ const ViewNote = () => {
         }}
       >
         <div ref={contentRef}>
-          <MarkdownPreview content={news?.content} />
+          <MarkdownPreview content={news?.content} noScroll={true} />
         </div>
       </Paper>
 

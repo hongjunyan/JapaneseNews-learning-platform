@@ -726,7 +726,7 @@ const MarkdownEditor = ({ value, onChange }) => {
           fullWidth
           multiline
           minRows={8}
-          maxRows={1000}
+          maxRows={30}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -758,6 +758,10 @@ const MarkdownEditor = ({ value, onChange }) => {
                 boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
               }
             },
+            '& .MuiInputBase-inputMultiline': {
+              height: 'calc(30 * 1.7rem) !important',
+              overflow: 'auto !important'
+            }
           }}
           InputProps={{
             sx: {
@@ -768,6 +772,8 @@ const MarkdownEditor = ({ value, onChange }) => {
               },
               pr: '50px',  // Add right padding for the brush stroke decoration
               p: 2.5,
+              height: 'calc(30 * 1.7rem + 5rem)',
+              overflow: 'auto'
             },
           }}
         />

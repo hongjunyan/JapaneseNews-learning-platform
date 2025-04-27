@@ -72,7 +72,7 @@ const pdfStyles = `
   }
 `;
 
-const MarkdownPreview = ({ content }) => {
+const MarkdownPreview = ({ content, noScroll = false }) => {
   const theme = useTheme();
   
   // Process furigana notation [kanji]{furigana}
@@ -122,8 +122,10 @@ const MarkdownPreview = ({ content }) => {
         elevation={0}
         sx={{ 
           p: 0, 
-          height: '100%', 
-          minHeight: '400px',
+          ...(noScroll 
+            ? { height: 'auto', minHeight: 'auto' } 
+            : { height: 'calc(30 * 1.7rem + 5rem)', minHeight: 'auto' }
+          ),
           overflow: 'hidden',
           border: '1px solid #EEEEEE',
           borderRadius: 0,
@@ -151,8 +153,8 @@ const MarkdownPreview = ({ content }) => {
           sx={{ 
             p: 3,
             pt: '26px', // Account for the wave pattern height
-            height: 'calc(100% - 20px)',
-            overflow: 'auto',
+            height: noScroll ? 'auto' : 'calc(100% - 26px)',
+            overflow: noScroll ? 'visible' : 'auto',
             position: 'relative',
             backgroundColor: 'rgba(250, 250, 250, 0.95)', // Slightly off-white background
           }}
