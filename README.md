@@ -10,7 +10,7 @@
 | 日期 | 新聞 | 連結 |
 |------|------|------|
 | 2025-04-20 | AIでマグロの脂のり評価　世界初の検査装置 | [Link](https://www.youtube.com/watch?v=CrAdYelsDVU) |
-| 2025-05-01 | 石破総理「関税措置の見直し訴える」　メーデー大会に出席 | [Link]([https://www.youtube.com/watch?v=CrAdYelsDVU](https://www.youtube.com/watch?v=spsDKEvBYu8)) |
+| 2025-05-01 | 石破総理「関税措置の見直し訴える」　メーデー大会に出席 | [Link](https://www.youtube.com/watch?v=spsDKEvBYu8)|
 
 ## 開始使用
 
